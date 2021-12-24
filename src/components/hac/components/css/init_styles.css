@@ -1,0 +1,62 @@
+.init-container
+{
+    height: 75vh;
+    display: flex;
+    flex-flow: column nowrap;    
+}
+.init-header button, .init-container h3{
+    height: 25px;
+    text-align: start;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding-top: 2px;
+    margin: 10px 0px 15px 35px;
+}
+.init-header
+{
+    border: ridge;
+    display: flex;
+    align-items: flex-start;
+    flex-flow: column;
+}
+.init-header-db ul
+{
+	list-style-type: none;
+	text-align: justify;
+}
+.init-header-db ul li h4
+{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+    opacity: 0.7;
+    margin: 0px 0px 0px 0px;
+}
+.init-body
+{
+    display: flex;
+	flex-flow: column wrap;
+	align-items: flex-start;
+}
+.init-body h3 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    opacity: 0.8;
+    font-size: 20px;
+}
+.init-body div {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+    opacity: 0.8;
+    margin: 0px 0px 10px 38px;
+}
+.init-body ul {
+	list-style-type: none;
+	width: 100%;
+}
+.init-body ul li {
+	display: flex;
+	align-items: center;
+    border: outset;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    opacity: 0.6;
+    height: 40px;
+    margin: 3px 20px 5px 0px;
+}

@@ -1,0 +1,73 @@
+.pk-analyzer-container
+{
+    height: 75vh;
+    display: flex;
+	flex-flow: column nowrap;
+	justify-content: left;
+    margin: 0 20px 0 20px;
+}
+
+.pk-analyze-header
+{
+    display: flex;
+	flex-flow: column wrap;
+	align-items:flex-start;
+    border: outset;  
+}
+
+.pk-analyze-header h3
+{
+    margin: 20px 0 20px 20px;
+    opacity: 0.6;
+}
+
+.pk-analyze-header div
+{
+    margin: 10px 0 20px 20px;
+}
+
+.pk-analyze-header h3, .pk-analyze-header div label 
+{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    opacity: 0.6;
+}
+
+.pk-analyze-header div input 
+{
+    border: outset;
+}
+.pk-analyze-header div button 
+{
+    width: 100px;
+    height: 30px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    padding-top: 2px;
+}
+
+.pk-analyzer-body
+{
+	display: flex;
+	align-items: flex-start;
+    margin: 30px 0px 0px 0px;
+}
+.pk-analyzer-body ul li
+{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+.pk-analyzer-item-01 li
+{
+    font-weight: bolder;
+    opacity: 0.8;
+}
+
+.pk-analyzer-item-02
+{
+    list-style-type: none;
+}
+.pk-analyzer-item-02 li
+{
+    font-weight: normal;
+    opacity: 0.8;    
+}
