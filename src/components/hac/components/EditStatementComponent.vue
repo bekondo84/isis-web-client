@@ -30,12 +30,12 @@ export default {
 		}),
 		async execute() {
 			try {
-			   let data = await this.coreService.executeScript(this.scriptData); 
-			   this.scriptData.script = null ; 	
-			   console.log('Recieve Data : '+JSON.stringify(data))
+			   let data = await this.coreService.executeScript(this.scriptData);			   
+			   this.eventBus.$emit('data-result', data);
+			   this.eventBus.$emit('result-error', null);
 			} catch(err) {
 				this.eventBus.$emit('loading-activate', false);
-				//console.log('error when execute impex : '+JSON.stringify(err))
+				this.eventBus.$emit('result-error', err);
 			}
 		},
 		onScriptDataChange() {
@@ -58,7 +58,7 @@ export default {
 }
 .sc-editor
 {
-    width: 80%;
+    width: 96%;
 	height: 45vh;
 	white-space: nowrap;
 	margin: 20px 10px 20px 30px;
@@ -68,7 +68,7 @@ export default {
 }
 .sc-action
 {   
-    width: 80%;
+    width: 96%;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;

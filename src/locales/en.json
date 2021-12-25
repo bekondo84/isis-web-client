@@ -69,6 +69,7 @@
    "tab.statement.label": "Edit Statement",
    "tab.browse.label": "Browse",
    "tab.result.label": "Result",
+   "tab.output.label": "Error Detail",
    "btn.update.label": "Update system",
    "btn.initialize.label": "Initialize system",
    "script.page.title": "Groovy Script Executor",
