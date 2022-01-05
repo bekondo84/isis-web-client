@@ -72,9 +72,9 @@ export default {
 			this.activeTab = tab ;
 		},
 		refreshResultData(scriptResult) {
-			this.headers.slice(0, this.headers.length) ;
+			this.headers.splice(0, this.headers.length) ;
 			this.headers.push(...scriptResult.headers);
-			this.datas.slice(0, this.datas.length);
+			this.datas.splice(0, this.datas.length);
 			this.datas.push(...scriptResult.data);			
 		},
 		setError(err) {

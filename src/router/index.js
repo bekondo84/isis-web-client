@@ -6,7 +6,10 @@ import store from './../store'
 Vue.use(VueRouter)
 
 const routes = [
-  ...HacRoutes
+  ...HacRoutes,
+   {path:'/login', name:'loginModule', component: () => import('./../components/backoffice/login/LogniComponent.vue')},
+   {path:'/storefront', name:'storeFrontModule', component: () => import('./../components/backoffice/storefront/StoreFrontComponent.vue')},
+   {path:'/:op', name:'extensionModule', component: () => import('./../components/backoffice/BackofficeConsole.vue')}
 ]
 
 const router = new VueRouter({

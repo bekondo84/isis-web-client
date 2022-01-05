@@ -10,6 +10,7 @@ import  AuthenticationService   from './services/authenticationService'
 
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 import 'animate.css/animate.min.css';
 import 'popmotion/dist/popmotion.global.min.js'
 import i18n from './i18n'
