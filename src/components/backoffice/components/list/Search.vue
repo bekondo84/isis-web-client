@@ -7,7 +7,20 @@
 </template>
 <script>
 export default {
-    
+    props: {
+        typeCode : String ,
+        template : String
+    },
+    data() {
+      return {
+          data : null 
+      }
+    },
+    inject: ['coreService'],
+    async created() {
+      // this.data = await this.coreService.getMetaData(this.typeCode, 'search', 'fr', this.template);
+       console.log('Search data fect for type : '+this.typeCode)
+    }
 }
 </script>
 <style scoped>

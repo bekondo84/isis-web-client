@@ -5,6 +5,7 @@
         </div>
         <div class="ext-header-02">
             <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default  btn-sm btn-space" @click="previous()"><i class="fa fa-external-link"></i></button>
                 <button type="button" class="btn btn-default  btn-sm btn-space"><i class="fa fa-trash"></i></button>
                 <button type="button" class="btn btn-default  btn-sm  btn-space"><i class="fa fa-refresh"></i></button>
                 <button type="button" class="btn btn-default  btn-sm  btn-space"><i class="fa fa-print"></i></button>
@@ -20,6 +21,7 @@
 </template>
 <script>
 export default {
+    inject: ['eventBus'],
      props: {
          title: String ,
          actions: Array
@@ -32,8 +34,14 @@ export default {
              
          }
      },
+     methods: {
+        previous: function() {
+            //console.log('back to list page')
+            this.eventBus.$emit('previous-event')
+        }
+     },
      created() {
-         console.log('Action recues : '+JSON.stringify(this.actions))
+        // console.log('Action recues : '+JSON.stringify(this.actions))
      }
 }
 </script>

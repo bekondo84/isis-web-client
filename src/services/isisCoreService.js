@@ -36,12 +36,27 @@ export default class IsisCoreService {
 		let url = "http://localhost:8080/backoffice/core/meta/analyze/"+primaryKey;
 		return await this.getRequest(url, null, null);
 	}
+
+	async getExtensionData(extname) {
+		let url = "http://localhost:8080/backoffice/module/load/"+extname;
+		return await this.getRequest(url, null, null)
+	}
 	
 	async executeScript(scriptData) {
 	   //scriptData.script = scriptData.script.replace(/[\n\r]+/g, '').replace(/\s{2, 10}/g, ' ');
 	   let url = "http://localhost:8080/backoffice/script";
 	   console.log('script Data : '+JSON.stringify(scriptData));
 	   return await this.postRequest(url, scriptData);
+	}
+
+
+	async getMetaData(typeCode, search, scope, lang, template) {
+      let url = "http://localhost:8080/backoffice/core/meta/"+search+"/"+scope+"/"+typeCode+"?lang="+lang ;
+
+	  if (template != null) {
+		  url = url+"/"+template;
+	  }
+	  return await this.getRequest(url, null, null);
 	}
 
 	async postRequest(url, request) {    

@@ -5,77 +5,35 @@
             </div>            
             <menu>
                <ul>
-                   <li><a href="">Dashbord</a></li>
-                   <li>
-                       <a href=""><i class="bi bi-plus-lg"></i>System</a>                      
-                       <ul>
-                           <li><a href="">Types</a></li>
-                           <li><a href="">Menu 2</a></li>
-                           <li>
-                               Background Process
-                               <ul>
-                                  <li><a href="">Memu 1</a></li>
-                                  <li><a href="">Memu 2</a></li>
-                               </ul>
+                   <li v-for="nav in navigations" :key="nav.pk">
+                       <a  @click="nodeAction(nav)">{{nav.label}}</a>
+                        <ul v-if="hasNodes(nav)">
+                           <li v-for="nav2 in nav.navigations" :key="nav2.pk">
+                              <a   @click="nodeAction(nav2)">{{nav2.label}}</a> 
+                              <ul v-if="hasNodes(nav2)">
+                                 <li v-for="nav3 in nav2.navigations" :key="nav3.pk">
+                                     <a    @click="nodeAction(nav3)">
+                                         {{nav3.label}}
+                                     </a>
+                                     <ul v-if="hasNodes(nav3)">
+                                         <li v-for="nav4 in nav3.navigations" :key="nav4.pk">
+                                             <a  @click="nodeAction(nav4)">
+                                                 {{nav4.label}}
+                                             </a>
+                                             <ul v-if="hasNodes(nav4)">
+                                                 <li v-for="nav5 in nav4.navigations" :key="nav5.pk">
+                                                     <a  @click="nodeAction(nav5)">
+                                                         {{nav5.label}}
+                                                     </a>
+                                                 </li>
+                                             </ul>
+                                         </li>
+                                     </ul>
+                                 </li>
+                              </ul>
                            </li>
-                       </ul>
-                   </li>
-                   <li>
-                    System
-                    <ul>
-                        <li><a href="">Types</a></li>
-                        <li><a href="">Menu 2</a></li>
-                        <li>
-                            Background Process
-                            <ul>
-                               <li><a href="">Memu 1</a></li>
-                               <li><a href="">Memu 2</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    System
-                    <ul>
-                        <li><a href="">Types</a></li>
-                        <li><a href="">Menu 2</a></li>
-                        <li>
-                            Background Process
-                            <ul>
-                               <li><a href="">Memu 1</a></li>
-                               <li><a href="">Memu 2</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    System
-                    <ul>
-                        <li><a href="">Types</a></li>
-                        <li><a href="">Menu 2</a></li>
-                        <li>
-                            Background Process
-                            <ul>
-                               <li><a href="">Memu 1</a></li>
-                               <li><a href="">Memu 2</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    System
-                    <ul>
-                        <li><a href="">Types</a></li>
-                        <li><a href="">Menu 2</a></li>
-                        <li>
-                            Background Process
-                            <ul>
-                               <li><a href="">Memu 1</a></li>
-                               <li><a href="">Memu 2</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
+                        </ul>
+                   </li>                 
                </ul>
             </menu>
             <footer>
@@ -85,7 +43,39 @@
 </template>
 <script>
 export default {
-    
+    inject: ['coreService', 'eventBus'],
+    data() {
+        return {
+            data: null
+        }
+    },
+    computed: {
+       navigations: function() {
+           if (this.data != null) {
+              return this.data.navigations ;
+           }
+           return []
+       }
+    },
+    methods: {
+        getExtensionName: function() {
+            return this.$route.path.substring(1);
+        },
+        hasNodes: function(nav) {
+            return nav != null && nav.navigations != null && nav.navigations.length > 0 ;
+        },
+        nodeAction: function(nav) {
+
+            if (!this.hasNodes(nav)) {
+               this.eventBus.$emit('navigation-action', nav);
+            }
+            //console.log('You have click on node : '+JSON.stringify(nav))
+        }
+    },
+    async created() {
+        this.data = await this.coreService.getExtensionData(this.getExtensionName())
+        console.log('Current path : '+this.getExtensionName()+" === "+JSON.stringify(this.data));
+    }
 }
 </script>
 <style scoped>

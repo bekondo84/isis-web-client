@@ -45,7 +45,7 @@ export default {
 	
 	methods: {
 		loadModule() {
-			this.$router.push({name:'extensionModule', params:{ op:'backoffice'}})
+			this.$router.push({name:'extensionModule', params:{ op:'ext-backoffice'}})
 		}
 	}
 }

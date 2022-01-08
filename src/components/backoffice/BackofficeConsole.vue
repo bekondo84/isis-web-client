@@ -40,11 +40,19 @@ export default {
 		},
        createAction: function() {
          this.viewType = 'create'
+	   },
+	   previous: function() {
+		   this.viewType = 'list';
+	   },
+	   onNavigationAction: function(nav) {
+		   console.log('Navigation Action recieve : '+JSON.stringify(nav))
 	   }
 	},
 	created() {
       this.eventBus.$emit('loading-activate', false);
 	  this.eventBus.$on('create-action', this.createAction);
+	  this.eventBus.$on('previous-event', this.previous);
+	  this.eventBus.$on('navigation-action', this.onNavigationAction)
 	}
 }
 </script>
