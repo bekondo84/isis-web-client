@@ -3,7 +3,7 @@ import store from './../store';
 import router from './../router';
 
 
-const url="http://localhost:8080/backoffice/api/public/authenticate";
+const url="http://localhost:8080/ext-backoffice/api/public/authenticate";
 
 export default class AuthencationService {
 

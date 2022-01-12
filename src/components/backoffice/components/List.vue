@@ -1,7 +1,13 @@
 <template>
    <section class="ext-content">
       <header-component :viewType="viewType"
-                        v-on:update-view-type="setCurrentViewType"></header-component>
+                        v-on:update-view-type="setCurrentViewType"
+                        :navNode="navNode"
+                        :extension="extension"
+                        :actions="actions"
+                        :canCreate="canCreate"
+                        :canDelete="canDelete"
+                        :title="title"></header-component>
       <div class="ext-content-body">
             <template v-if="showList()">
                 <table-data-component 
@@ -28,7 +34,11 @@ const KabanDataComponent = () => import('./list/KabanData.vue');
 const CalendarDataComponent = () => import('./list/CalendarData.vue');
 
 export default {
-    inject: ['eventBus'],
+    props: {
+       viewType: Array ,
+       navNode : Object
+    },
+    inject: ['eventBus', 'coreService'],
     components: {
         HeaderComponent ,
         TableDataComponent,
@@ -38,25 +48,45 @@ export default {
     data() {
         return {
             currentViewType: 'list',
-            data: [
-                {pk:12345,name:'Bekondo',surname:'Kangue Dieunedort', email:'bekondo84@gmail.com',phone:'+237 695427874', selected:false},
-                {pk:12346,name:'Bekondo',surname:'Kangue Dieunedort', email:'bekondo84@gmail.com',phone:'+237 695427874', selected:false},
-                {pk:12347,name:'Bekondo',surname:'Kangue Dieunedort', email:'bekondo84@gmail.com',phone:'+237 695427874', selected:false},
-                {pk:12348,name:'Bekondo',surname:'Kangue Dieunedort', email:'bekondo84@gmail.com',phone:'+237 695427874', selected:false},
-                {pk:12349,name:'Bekondo',surname:'Kangue Dieunedort', email:'bekondo84@gmail.com',phone:'+237 695427874', selected:false},
-                {pk:12344,name:'Bekondo',surname:'Kangue Dieunedort', email:'bekondo84@gmail.com',phone:'+237 695427874', selected:false}
-            ] ,
-            header: [
-                   {name:'pk', type:String,title:'PK'},
-                   {name:'name', type:String,title:'Name'},
-                   {name:'surname', type:String,title:'Surname'},
-                   {name:'email', type:String,title:'E-Mail'},
-                   {name:'phone', type:String,title:'Phone'}
-                ],
-            viewType: ['list', 'kaban', 'Calendar']
+            meta: null,
+            data: [ ] ,
+            header : []   
         }
     },
+    computed: {
+         extension: function() {
+            return this.$route.path.substring(1);
+        },
+        actions: function() {
+            if (this.meta != null) {
+                return this.meta.actions;
+            }
+            return []
+        },
+        canCreate: function() {
+            if (this.meta != null) {
+                return this.meta.canCreate ;
+            }
+            return false;
+        },
+        canDelete: function() {
+            if (this.meta != null) {
+                return this.meta.canDelete ;
+            }
+            return false;
+        },
+        title: function() {
+            if (this.meta != null ) {
+                return this.meta.title ;
+            }
+            return null;
+        }
+       
+    },
     methods: {
+        itemSelectedAction: function(item) {
+            this.$emit('item-selected-action', item);
+        },
         showList: function() {
             return this.currentViewType.toLowerCase() === 'list';
         },
@@ -72,11 +102,49 @@ export default {
         selectAllItems: function(selected) {
             this.data.forEach(item => item.selected = selected);                       
             //console.log('Update viewType detected with value : '+selected);
+        },
+         typeCode: function() {
+            if (this.navNode != null) {
+             return this.navNode.type;
+            }
+            return null;
+        },
+        template: function() {
+            if (this.navNode != null) {
+              return this.navNode.template;
+            }
+            return null;
+        },
+        getExtension: function() {
+            return this.$route.path.substring(1);
+        },
+        async getMetaData() {
+            this.meta = await this.coreService.getMetaData(this.getExtension(), this.typeCode(), 'list', 'fr', this.template());
+            this.header = this.meta.columns;
+        },
+        async getDatas() {
+            let path = null ;
+            if (this.navNode != null && this.navNode.path != null && this.navNode.path != '') {
+                path = this.navNode.path;
+            } else {
+                path =  this.getExtension()+"/core/"+this.typeCode();
+            }
+            this.data = await this.coreService.getDatas(path, null, null);
         }
 
     },
-    created() {
-        
+    watch: {
+      async navNode() {
+           //console.log('NavNode value changed detected : '+newVal+" :: "+oldVal)
+           await this.getMetaData();
+           await this.getDatas();
+      }
+    },
+    async created() {
+        if (this.navNode != null) {
+           await  this.getMetaData();
+           this.getDatas();
+        }
     }
 }
 </script>

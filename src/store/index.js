@@ -9,7 +9,7 @@ export default new Vuex.Store({
      data : null 
   },
   mutations: {
-
+     
   },
   getters: {
       

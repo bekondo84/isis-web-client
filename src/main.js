@@ -8,6 +8,7 @@ import router from './router'
 import store from './store'
 import  AuthenticationService   from './services/authenticationService'
 
+import IsisFormPlugin from './plugins/isis'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -15,11 +16,13 @@ import 'animate.css/animate.min.css';
 import 'popmotion/dist/popmotion.global.min.js'
 import i18n from './i18n'
 import IsisCoreService from './services/isisCoreService'
+import UtilsService from './services/UtilsService'
 
 export const eventBus = new Vue();
 
 Vue.config.productionTip = false
 Vue.use(loader)
+Vue.use(IsisFormPlugin)
 
 new Vue({
   router,
@@ -30,7 +33,8 @@ new Vue({
     return {
       eventBus: eventBus,
       authenticationService: new AuthenticationService(),
-      coreService: new IsisCoreService(store)
+      coreService: new IsisCoreService(store) ,
+      utilsService: new UtilsService()
     }
   }
 }).$mount('#app')

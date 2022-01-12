@@ -4,10 +4,15 @@
 	   <div class="ext-container">
 		   <menu-component></menu-component>
 		   <template v-if="showList()">
-		     <list-component></list-component>
+		     <list-component 
+			    :viewType="viewMode"
+				:navNode="navNode"
+				:item-selected-action="setItem"></list-component>
 		   </template>
 		   <template v-if="showForm()">
-		     <form-component></form-component>
+		     <form-component 
+			    :navNode="navNode"
+				:item="item"></form-component>
 		   </template>
 		</div>			
 	</div>
@@ -28,7 +33,10 @@ export default {
 	},
 	data() {
       return {
-		  viewType: 'list'
+		  viewType: 'list',
+		  viewMode: ['list', 'view'],
+		  navNode : null ,
+		  item : null
 	  }
 	},
 	methods: {
@@ -36,23 +44,34 @@ export default {
            return this.viewType.toLowerCase() === 'list'
 		},
 		showForm: function() {
-            return this.viewType.toLowerCase() === 'create'
+            return this.viewType.toLowerCase() === 'view'
 		},
        createAction: function() {
-         this.viewType = 'create'
+         this.viewType = 'view';
+		 this.item = null ;
 	   },
-	   previous: function() {
+	   previous: function(nav) {
 		   this.viewType = 'list';
+		   this.onNavigationAction(nav);
 	   },
 	   onNavigationAction: function(nav) {
-		   console.log('Navigation Action recieve : '+JSON.stringify(nav))
+		   if (nav != null) {
+			this.viewMode = nav.viewMode.split(',')
+			this.viewType = this.viewMode[0];
+			this.navNode = nav ;
+		   }
+	   },
+	   setItem(item) {
+		   this.item = item ;
+		   this.viewType = 'view';
 	   }
 	},
 	created() {
       this.eventBus.$emit('loading-activate', false);
 	  this.eventBus.$on('create-action', this.createAction);
 	  this.eventBus.$on('previous-event', this.previous);
-	  this.eventBus.$on('navigation-action', this.onNavigationAction)
+	  this.eventBus.$on('navigation-action', this.onNavigationAction);
+	  this.eventBus.$on('item-selected-action', this.setItem);
 	}
 }
 </script>

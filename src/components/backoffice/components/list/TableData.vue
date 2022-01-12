@@ -3,19 +3,20 @@
         <thead>
             <tr>
                 <th scope="col"><input type="checkbox" v-model="selected" @click="selectAll()"></th>
-                <th scope="col" v-for="(prop, index) in header" :key="index">{{prop.title}}</th>
+                <th scope="col" v-for="(prop, index) in header" :key="index">{{prop.label}}</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="item in data"  :key="item.pk">
                 <th scope="row"><input type="checkbox" v-model="item.selected"></th>
-                <td v-for="(prop, index) in header" :key="index">{{item[prop.name]}}</td>            
+                <td v-for="(prop, index) in header" :key="index" @click="selectItem(item)">{{item[prop.fieldName]}}</td>            
             </tr>
         </tbody>
     </table>                  
 </template>
 <script>
 export default {
+    inject: ['eventBus'] ,
     props: {
         data: Array,
         header: Array
@@ -29,6 +30,9 @@ export default {
         selectAll: function() {
             this.selected = !this.selected ;
             this.$emit('select-all-items', this.selected);
+        },
+        selectItem: function(item) {
+            this.eventBus.$emit('item-selected-action', item) ;
         }
     }
 }

@@ -8,18 +8,40 @@
 <script>
 export default {
     props: {
-        typeCode : String ,
-        template : String
+        navNode: Object,
+        extension: String
     },
     data() {
       return {
-          data : null 
+          meta : null 
       }
+    },
+    methods: {
+        typeCode: function() {
+            if (this.navNode != null) {
+             return this.navNode.type;
+            }
+            return null;
+        },
+        template: function() {
+            if (this.navNode != null) {
+              return this.navNode.template;
+            }
+            return null;
+        }
+    },
+    watch: {
+        async navNode(newVal, oldval) {
+            if (newVal != oldval) {
+                this.meta = await this.coreService.getMetaData(this.extension, this.typeCode(), 'search', 'fr', this.template());
+            }
+        }
     },
     inject: ['coreService'],
     async created() {
-      // this.data = await this.coreService.getMetaData(this.typeCode, 'search', 'fr', this.template);
-       console.log('Search data fect for type : '+this.typeCode)
+        if (this.navNode != null) {
+          this.meta = await this.coreService.getMetaData(this.extension, this.typeCode(), 'search', 'fr', this.template());
+        }
     }
 }
 </script>

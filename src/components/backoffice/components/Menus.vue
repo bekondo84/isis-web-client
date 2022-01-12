@@ -56,6 +56,7 @@ export default {
            }
            return []
        }
+       
     },
     methods: {
         getExtensionName: function() {
@@ -64,6 +65,13 @@ export default {
         hasNodes: function(nav) {
             return nav != null && nav.navigations != null && nav.navigations.length > 0 ;
         },
+        defaultNavNode: function(nav) {                   
+           if (this.hasNodes(nav)) {
+              return this.defaultNavNode(nav.navigations[0])
+           }else {
+               return nav;
+           }
+       },
         nodeAction: function(nav) {
 
             if (!this.hasNodes(nav)) {
@@ -74,7 +82,10 @@ export default {
     },
     async created() {
         this.data = await this.coreService.getExtensionData(this.getExtensionName())
-        console.log('Current path : '+this.getExtensionName()+" === "+JSON.stringify(this.data));
+        
+        if (this.data != null && this.data.navigations != null && this.data.navigations.length > 0) {
+            this.eventBus.$emit('navigation-action', this.defaultNavNode(this.data.navigations[0]))
+        }
     }
 }
 </script>

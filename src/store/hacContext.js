@@ -70,8 +70,12 @@ export default {
 		setCurrentUserInformation(currentState, user) {
 			currentState.currentUser = user ;
 		},	
-		setData(currentState, data) {
+		setData(currentState, data, eventBus) {
             currentState.data = data ;
+
+			if (eventBus != null) {
+				eventBus.$emit('data-change' ,data);
+			}
 		},	
 		setPaginationdata(currentState ,pagination) {
 			

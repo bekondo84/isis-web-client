@@ -1,8 +1,8 @@
 <template>
     <div class="ext-header-02">
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-success  btn-sm btn-space" @click="newAction()"><i class="fa fa-plus"></i></button>
-            <button type="button" class="btn btn-danger  btn-sm  btn-space"><i class="fa fa-trash"></i></button>
+            <button v-if="canCreate" type="button" class="btn btn-success  btn-sm btn-space" @click="newAction()"><i class="fa fa-plus"></i></button>
+            <button v-if="canDelete" type="button" class="btn btn-danger  btn-sm  btn-space"><i class="fa fa-trash"></i></button>
         </div>
         <div class="ext-header-02-02">
             <div class="btn-group" role="group" aria-label="...">
@@ -20,7 +20,11 @@
 export default {
     inject: ['eventBus'] ,
     props: {
-        viewType : Array
+        viewType : Array,
+        actions: Array,
+        navNode: Object,
+        canCreate: Boolean,
+        canDelete: Boolean
     } ,
     data: function() {
        return {
@@ -28,6 +32,7 @@ export default {
        }
     },
     methods: {
+        
         newAction: function() {
            this.eventBus.$emit('create-action')
         },
@@ -47,6 +52,9 @@ export default {
             this.selectViewType = type ;
             this.$emit('update-view-type', this.selectViewType);
         }
+    },
+    watch: {
+       
     },
     created() {
         console.log('List Actions : '+this.viewType);
